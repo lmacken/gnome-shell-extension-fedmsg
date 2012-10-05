@@ -51,6 +51,13 @@ Fedmsg.prototype = {
         this.menu.addMenuItem(section);
     },
 
+    _disabled: function(){
+      log('fedmsg-notify-daemon disabled!');
+    },
+    _enabled: function(){
+      log('fedmsg-notify-daemon enabled!');
+    },
+
     _toggle: function(){
         let proxy = new Gio.DBusProxy({
             g_connection: Gio.DBus.session,
@@ -62,9 +69,13 @@ Fedmsg.prototype = {
         });
 
         if (this._toggle_switch.state) {
-            proxy.call_sync('Enable', null, null, -1, null);
+            log('Enabling fedmsg-notify-daemon');
+            proxy.call('Enable', null, Gio.DBusCallFlags.NONE, -1, null,
+              Lang.bind(this, this._enabled), null);
         } else {
-            proxy.call_sync('Disable', null, null, -1, null);
+            log('Disabling fedmsg-notify-daemon');
+            proxy.call('Disable', null, Gio.DBusCallFlags.NONE, -1, null,
+              Lang.bind(this, this._disabled), null);
         }
     },
 }
