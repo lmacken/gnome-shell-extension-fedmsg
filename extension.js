@@ -10,18 +10,15 @@ const Gio = imports.gi.Gio;
 const DBus = imports.dbus;
 
 const FEDMSG_NOTIFY_BUS = 'org.fedoraproject.fedmsg.notify';
+const FEDMSG_OBJ_PATH = '/org/fedoraproject/fedmsg/notify';
 
-const FedmsgNotificationObjectInterface = {
-    name: 'org.fedoraproject.fedmsg.notify',
-    methods: [
-        {name: 'Status', inSignature: 's', outSignature: 's'},
-        {name: 'Enable', inSignature: '', outSignature: ''},
-        {name: 'Disable', inSignature: '', outSignature: ''},
-    ],
-    signals: [
-        /*{name: 'StatusChanged', inSignature: 's'}*/
-    ]
-};
+const FedmsgServerIface =
+<interface name="org.fedoraproject.fedmsg.notify">
+<method name="Enable"/>
+<method name="Disable"/>
+</interface>;
+
+const FedmsgServerInfo = Gio.DBusInterfaceInfo.new_for_xml(FedmsgServerIface);
 
 function Fedmsg() {
     this._init.apply(this, arguments);
@@ -55,14 +52,19 @@ Fedmsg.prototype = {
     },
 
     _toggle: function(){
-        let NotificationProxy = DBus.makeProxyClass(FedmsgNotificationObjectInterface);
-        let notify = new NotificationProxy(DBus.session, FEDMSG_NOTIFY_BUS,
-                                          '/org/fedoraproject/fedmsg/notify');
+        let proxy = new Gio.DBusProxy({
+            g_connection: Gio.DBus.session,
+            g_interface_name: FedmsgServerInfo.name,
+            g_interface_info: FedmsgServerInfo,
+            g_name: FEDMSG_NOTIFY_BUS,
+            g_object_path: FEDMSG_OBJ_PATH,
+            g_flags: (Gio.DBusProxyFlags.NONE)
+        });
 
         if (this._toggle_switch.state) {
-            notify.DisableRemote();
+            proxy.call_sync('Enable', null, null, -1, null);
         } else {
-            notify.EnableRemote();
+            proxy.call_sync('Disable', null, null, -1, null);
         }
     },
 }
