@@ -30,32 +30,24 @@ Fedmsg.prototype = {
     _init: function(){
         PanelMenu.SystemStatusButton.prototype._init.call(this, 'fedmsg');
 
+        this.actor.get_children().forEach(function(c) { c.destroy() });
+        this.menu.box.get_children().forEach(function(c) { c.destroy() });
+
         let icon = new St.Icon({
             icon_size: Main.panel.actor.height - 3,
             icon_name: 'fedora-logo-icon'
         });
-
-        this.actor.get_children().forEach(function(c) {
-            c.destroy()
-        });
         this.actor.add_actor(icon);
 
-        this.menu.box.get_children().forEach(function(c) {
-            c.destroy()
-        });
-
         let section = new PopupMenu.PopupMenuSection('Fedmsg');
-        this._toggle_switch = new PopupMenu.PopupSwitchMenuItem('Fedmsg Notifications', false);
+        this._toggle_switch =
+            new PopupMenu.PopupSwitchMenuItem('Fedmsg Notifications', false);
         this._toggle_switch.connect('toggled', Lang.bind(this, this._toggle));
         section.addMenuItem(this._toggle_switch);
+        section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+        section.addSettingsAction('Fedmsg Settings',
+            'fedmsg-notify-config.desktop');
         this.menu.addMenuItem(section);
-    },
-
-    _disabled: function(){
-      log('fedmsg-notify-daemon disabled!');
-    },
-    _enabled: function(){
-      log('fedmsg-notify-daemon enabled!');
     },
 
     _toggle: function(){
@@ -77,6 +69,14 @@ Fedmsg.prototype = {
             proxy.call('Disable', null, Gio.DBusCallFlags.NONE, -1, null,
               Lang.bind(this, this._disabled), null);
         }
+    },
+
+    _disabled: function(){
+        log('fedmsg-notify-daemon disabled!');
+    },
+
+    _enabled: function(){
+        log('fedmsg-notify-daemon enabled!');
     },
 }
 
