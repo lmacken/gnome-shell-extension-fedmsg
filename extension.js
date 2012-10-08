@@ -42,12 +42,16 @@ Fedmsg.prototype = {
         let section = new PopupMenu.PopupMenuSection('Fedmsg');
         this._toggle_switch =
             new PopupMenu.PopupSwitchMenuItem('Fedmsg Notifications', false);
-        this._toggle_switch.connect('toggled', Lang.bind(this, this._toggle));
         section.addMenuItem(this._toggle_switch);
         section.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         section.addSettingsAction('Fedmsg Settings',
             'fedmsg-notify-config.desktop');
         this.menu.addMenuItem(section);
+
+        this.settings = new Gio.Settings({ schema: FEDMSG_NOTIFY_BUS });
+        this._toggle_switch.setToggleState(this.settings.get_boolean('enabled'));
+        this._toggle();
+        this._toggle_switch.connect('toggled', Lang.bind(this, this._toggle));
     },
 
     _toggle: function(){
@@ -73,10 +77,12 @@ Fedmsg.prototype = {
 
     _disabled: function(){
         log('fedmsg-notify-daemon disabled!');
+        this.settings.set_boolean('enabled', false);
     },
 
     _enabled: function(){
         log('fedmsg-notify-daemon enabled!');
+        this.settings.set_boolean('enabled', true);
     },
 }
 
@@ -95,3 +101,5 @@ function disable() {
     Mainloop.source_remove(event);
     indicator = null;
 }
+
+// vim: ts=4 sw=4 ai expandtab
