@@ -48,10 +48,21 @@ Fedmsg.prototype = {
             'fedmsg-notify-config.desktop');
         this.menu.addMenuItem(section);
 
-        this.settings = new Gio.Settings({ schema: FEDMSG_NOTIFY_BUS });
-        this._toggle_switch.setToggleState(this.settings.get_boolean('enabled'));
+        this._settings = new Gio.Settings({ schema: FEDMSG_NOTIFY_BUS });
+        this._connect_signal_handlers();
+        this._toggle_switch.setToggleState(this._settings.get_boolean('enabled'));
         this._toggle();
-        this._toggle_switch.connect('toggled', Lang.bind(this, this._toggle));
+    },
+
+    _connect_signal_handlers: function() {
+        this._switch_conn = this._toggle_switch.connect('toggled', Lang.bind(this, this._toggle));
+        this._settings_conn = this._settings.connect('changed::enabled',
+                Lang.bind(this, this._settings_changed));
+    },
+
+    _disconnect_signal_handlers: function() {
+        this._toggle_switch.disconnect(this._switch_conn);
+        this._settings.disconnect(this._settings_conn);
     },
 
     _toggle: function(){
@@ -64,6 +75,7 @@ Fedmsg.prototype = {
             g_flags: (Gio.DBusProxyFlags.NONE)
         });
 
+        this._disconnect_signal_handlers();
         if (this._toggle_switch.state) {
             log('Enabling fedmsg-notify-daemon');
             proxy.call('Enable', null, Gio.DBusCallFlags.NONE, -1, null,
@@ -73,16 +85,26 @@ Fedmsg.prototype = {
             proxy.call('Disable', null, Gio.DBusCallFlags.NONE, -1, null,
               Lang.bind(this, this._disabled), null);
         }
+        this._connect_signal_handlers();
     },
 
     _disabled: function(){
         log('fedmsg-notify-daemon disabled!');
-        this.settings.set_boolean('enabled', false);
+        this._disconnect_signal_handlers();
+        this._settings.set_boolean('enabled', false);
+        this._connect_signal_handlers();
     },
 
     _enabled: function(){
         log('fedmsg-notify-daemon enabled!');
-        this.settings.set_boolean('enabled', true);
+        this._disconnect_signal_handlers();
+        this._settings.set_boolean('enabled', true);
+        this._connect_signal_handlers();
+    },
+
+    _settings_changed: function() {
+        log('settings_changed!');
+        this._toggle_switch.setToggleState(this._settings.get_boolean('enabled'));
     },
 }
 
