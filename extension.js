@@ -53,7 +53,7 @@ Fedmsg.prototype = {
 
         let icon = new St.Icon({
             icon_size: Main.panel.actor.height - 3,
-            icon_name: 'fedora-logo-icon'
+            icon_name: 'fedmsg-notify'
         });
         this.actor.add_actor(icon);
 
