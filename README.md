@@ -1,7 +1,7 @@
 gnome-shell-extension-fedmsg
 ============================
 
-A GNOME Shell extension for configuring Fedmsg desktop notifications.
+A GNOME Shell extension for configuring [Fedmsg desktop notifications](https://github.com/fedora-infra/fedmsg-notify).
 
 ![Hop on the bus!](http://lewk.org/img/gnome-shell-extension-fedmsg.png "Hop on the bus!")
 
