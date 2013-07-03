@@ -1,6 +1,7 @@
 #!/bin/bash -x
-VERSION=0.1.1
+VERSION=0.1.4
 REV=1
+DIST=fc19
 #rpmdev-bumpspec ~/rpmbuild/SPECS/gnome-shell-extension-fedmsg.spec
 pushd ..
 cp -R gnome-shell-extension-fedmsg{,-$VERSION}
@@ -9,5 +10,5 @@ mv *.gz ~/rpmbuild/SOURCES/
 rm -fr gnome-shell-extension-fedmsg-$VERSION
 rpmbuild -ba ~/rpmbuild/SPECS/gnome-shell-extension-fedmsg.spec
 sudo rpm -e gnome-shell-extension-fedmsg
-sudo rpm -ivh /home/lmacken/rpmbuild/RPMS/noarch/gnome-shell-extension-fedmsg-$VERSION-$REV.fc18.noarch.rpm
+sudo rpm -ivh /home/lmacken/rpmbuild/RPMS/noarch/gnome-shell-extension-fedmsg-$VERSION-$REV.$DIST.noarch.rpm
 popd
