@@ -16,3 +16,8 @@ Enabling the extension
 Once installed, the extension can be enabled by running
 `gnome-shell-extension-tool -e fedmsg@lmacken-redhat.com` or with the
 `gnome-tweak-tool`.
+
+License
+-------
+.. image:: https://www.gnu.org/graphics/gplv3-127x51.png
+   :target: https://www.gnu.org/licenses/gpl.txt
