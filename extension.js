@@ -25,7 +25,6 @@ const GLib = imports.gi.GLib;
 const Util = imports.misc.util;
 const Mainloop = imports.mainloop;
 const Gio = imports.gi.Gio;
-const DBus = imports.dbus;
 
 const FEDMSG_NOTIFY_BUS = 'org.fedoraproject.fedmsg.notify';
 const FEDMSG_OBJ_PATH = '/org/fedoraproject/fedmsg/notify';
