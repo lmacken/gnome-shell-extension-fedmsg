@@ -95,6 +95,7 @@ Fedmsg.prototype = {
         });
 
         this._disconnect_signal_handlers();
+        this._settings.set_boolean('enabled', this._toggle_switch.state);
         if (this._toggle_switch.state) {
             log('Enabling fedmsg-notify-daemon');
             proxy.call('Enable', null, Gio.DBusCallFlags.NONE, -1, null,
