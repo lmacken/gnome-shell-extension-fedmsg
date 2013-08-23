@@ -69,6 +69,8 @@ Fedmsg.prototype = {
         this._connect_signal_handlers();
         this._toggle_switch.setToggleState(this._settings.get_boolean('enabled'));
         this._toggle();
+
+        log('fedmsg-notify extension loaded');
     },
 
     _connect_signal_handlers: function() {
@@ -120,7 +122,7 @@ Fedmsg.prototype = {
     },
 
     _settings_changed: function() {
-        log('settings_changed!');
+        log('fedmsg-notify settings_changed!');
         this._toggle_switch.setToggleState(this._settings.get_boolean('enabled'));
     },
 }
