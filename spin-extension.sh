@@ -1,7 +1,7 @@
 #!/bin/bash -x
-VERSION=0.1.4
+VERSION=0.1.6
 REV=1
-DIST=fc19
+DIST=fc20
 #rpmdev-bumpspec ~/rpmbuild/SPECS/gnome-shell-extension-fedmsg.spec
 pushd ..
 cp -R gnome-shell-extension-fedmsg{,-$VERSION}
