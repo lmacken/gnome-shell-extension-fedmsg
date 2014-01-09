@@ -42,10 +42,10 @@ function Fedmsg() {
 }
 
 Fedmsg.prototype = {
-    __proto__: PanelMenu.SystemStatusButton.prototype,
+    __proto__: PanelMenu.Button.prototype,
 
     _init: function(){
-        PanelMenu.SystemStatusButton.prototype._init.call(this, 'fedmsg');
+        PanelMenu.Button.prototype._init.call(this, 0.0, 'fedmsg', false);
 
         this.actor.get_children().forEach(function(c) { c.destroy() });
         this.menu.box.get_children().forEach(function(c) { c.destroy() });
