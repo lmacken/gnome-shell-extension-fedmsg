@@ -1,5 +1,5 @@
 #!/bin/bash -x
-VERSION=0.1.6
+VERSION=0.1.6.1
 REV=1
 DIST=fc20
 #rpmdev-bumpspec ~/rpmbuild/SPECS/gnome-shell-extension-fedmsg.spec
