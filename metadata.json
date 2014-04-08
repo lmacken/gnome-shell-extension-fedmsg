@@ -1,1 +1,1 @@
-{"shell-version": ["3.10", "3.11"], "uuid": "fedmsg@lmacken-redhat.com", "name": "Fedmsg Notifications", "description": "Get realtime Fedora infrastructure notifications on your desktop.", "url": "https://github.com/lmacken/gnome-shell-extension-fedmsg"}
+{"shell-version": ["3.10", "3.11", "3.12"], "uuid": "fedmsg@lmacken-redhat.com", "name": "Fedmsg Notifications", "description": "Get realtime Fedora infrastructure notifications on your desktop.", "url": "https://github.com/lmacken/gnome-shell-extension-fedmsg"}
