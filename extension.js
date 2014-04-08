@@ -29,11 +29,12 @@ const Gio = imports.gi.Gio;
 const FEDMSG_NOTIFY_BUS = 'org.fedoraproject.fedmsg.notify';
 const FEDMSG_OBJ_PATH = '/org/fedoraproject/fedmsg/notify';
 
-const FedmsgServerIface =
-<interface name="org.fedoraproject.fedmsg.notify">
-<method name="Enable"/>
-<method name="Disable"/>
-</interface>;
+const FedmsgServerIface = '<node> \
+<interface name="org.fedoraproject.fedmsg.notify"> \
+<method name="Enable"/> \
+<method name="Disable"/> \
+</interface> \
+</node>';
 
 const FedmsgServerInfo = Gio.DBusInterfaceInfo.new_for_xml(FedmsgServerIface);
 
